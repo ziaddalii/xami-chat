@@ -1,0 +1,20 @@
+@keyframes dot-animation {
+  0%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-dot {
+  animation: dot-animation 1s infinite;
+}
+
+.animation-delay-200 {
+  animation-delay: 0.3s;
+}
+
+.animation-delay-400 {
+  animation-delay: 0.5s;
+}
