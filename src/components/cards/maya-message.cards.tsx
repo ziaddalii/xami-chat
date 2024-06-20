@@ -6,7 +6,7 @@ interface Props {
 }
 export default function MayaMessageCard({ message }: Props) {
   return (
-    <div className="flex gap-1 ">
+    <div className="flex gap-1 text-wrap break-words">
       <img
         className="p-1 bg-[#D9D9D9] rounded-full size-[40px]"
         src={mayaProfilePic}
