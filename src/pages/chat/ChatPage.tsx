@@ -10,7 +10,6 @@ export interface MessageModel {
 }
 
 function ChatPage() {
-  const user_name = localStorage.getItem("user_name");
   const navigate = useNavigate();
   
   // Validate user have initialized
@@ -25,15 +24,8 @@ function ChatPage() {
   }, [navigate]);
 
 
-  const defaultMessages: MessageModel[] = [
-    {
-      sender: "maya",
-      content: `Hi ${user_name}, my name is Maya. how can I help you today?`,
-    },
-  ];
-
-  const [messages, setMessages] = useState<MessageModel[]>(defaultMessages);
-  const [typing, setTyping] = useState<boolean>(false);
+  const [messages, setMessages] = useState<MessageModel[]>([]);
+  const [typing, setTyping] = useState<boolean>(true);
 
   // Scroll To last message
   useEffect(() => {

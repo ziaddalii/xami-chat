@@ -1,18 +1,38 @@
 import { checkChatApi, sendMessageChatApi } from "@/api/requests/chat.api";
 import { MessageModel } from "@/pages/chat/ChatPage";
-import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 interface Props {
   setMessages: Dispatch<SetStateAction<MessageModel[]>>;
   setTyping: Dispatch<SetStateAction<boolean>>;
 }
 
-const thread_id = localStorage.getItem("thread_id") || "";
-
 export default function SendMessageForm({ setMessages, setTyping }: Props) {
+  const thread_id = localStorage.getItem("thread_id") || "";
+  const user_name = localStorage.getItem("user_name") || "";
   // States
   const [disabledButton, setDisabledButton] = useState<boolean>(true);
+  const [disabledInput, setDisabledInput] = useState<boolean>(true);
   const messageIInputRef = useRef<HTMLInputElement>(null);
+
+  // Send Hidden Message
+  const sendFirstHiddenMessage = async () => {
+    const chat_payload = {
+      message: `Hi my name is ${user_name} and i would like to know more about you`,
+      thread_id: thread_id,
+    };
+
+    // CHAT REQUEST
+    const { run_id } = await sendMessageChatApi(chat_payload);
+
+    // GET MAYA'S RESPONSE
+    getMayaResponse(run_id);
+    setDisabledInput(false);
+  };
+
+  useEffect(() => {
+    sendFirstHiddenMessage();
+  }, []);
 
   // Check Input Value
   const checkInputValue = () => {
@@ -27,7 +47,6 @@ export default function SendMessageForm({ setMessages, setTyping }: Props) {
     }
   };
 
-
   // Handle Messages Flow
   const handleMessages = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,7 +55,6 @@ export default function SendMessageForm({ setMessages, setTyping }: Props) {
     // SEND USER'S MESSAGE
     sendMessage(new_message);
   };
-
 
   // Handle User Sending Message
   const sendMessage = async (new_message: string) => {
@@ -64,7 +82,6 @@ export default function SendMessageForm({ setMessages, setTyping }: Props) {
     getMayaResponse(run_id);
   };
 
-
   // Get Response Message
   const getMayaResponse = async (run_id: string) => {
     const check_payload = {
@@ -90,6 +107,7 @@ export default function SendMessageForm({ setMessages, setTyping }: Props) {
         className="w-full max-w-3xl mx-auto py-2 flex items-center gap-1 px-2"
       >
         <input
+          disabled={disabledInput}
           ref={messageIInputRef}
           onChange={checkInputValue}
           type="text"

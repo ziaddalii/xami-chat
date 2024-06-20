@@ -23,10 +23,10 @@ function ChatHeader() {
           <img
             className="p-1 bg-[#ADADAD] rounded-full size-[40px]"
             src={mayaProfilePic}
-            alt="Maya profile picture"
+            alt="Manav profile picture"
           />
         </div>
-        <div className="col-span-1 flex justify-center items-center">MAYA</div>
+        <div className="col-span-1 flex justify-center items-center">Manav</div>
       </div>
     </header>
   );
